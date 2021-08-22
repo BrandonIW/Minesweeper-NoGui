@@ -10,8 +10,8 @@
 # Step10: Remove random print statements                                                                   - Done
 
 # Bugs
-# - Destroy first window upon new instance of game
 # - Input validation with non-numeric numbers
+# - String formatting when there's double-digits of rows and columns
 
 #[
 #[(0,0),(0,1),(0,2),(0,3),(0,4),(0,5),(0,6),(0,7),(0,8),(0,9)],
@@ -266,10 +266,10 @@ class Minesweeper:
 
 class MainMenu:
     def __init__(self):
-        window = Tk()
-        window.title("Minesweeper")
-        window.geometry("300x85")
-        window.config(background="white")
+        self.window = Tk()
+        self.window.title("Minesweeper")
+        self.window.geometry("300x85")
+        self.window.config(background="white")
 
 
         dict = {
@@ -277,21 +277,21 @@ class MainMenu:
             "Medium": [15,40],
             "Hard": [20,99]
         }
-        easy_button = Button(window,
+        easy_button = Button(self.window,
                              text = "Easy",
                              command = lambda: [self.play_game(dict.get("Easy")[0],dict.get("Easy")[1])],
                              font = ("New Times Roman", 10),
                              fg = "white",
                              bg = "black").pack(fill="x")
 
-        intermediate_button = Button(window,
+        intermediate_button = Button(self.window,
                                      text = "Intermediate",
                                      command = lambda: [self.play_game(dict.get("Medium")[0],dict.get("Medium")[1])],
                                      font = ("New Times Roman", 10),
                                      fg = "white",
                                      bg = "black").pack(fill="x")
 
-        hard_button = Button(window,
+        hard_button = Button(self.window,
                              text = "Hard",
                              command = lambda: [self.play_game(dict.get("Hard")[0],dict.get("Hard")[1])],
                              font = ("New Times Roman", 10),
@@ -299,12 +299,14 @@ class MainMenu:
                              bg = "black").pack(fill="x")
 
 
-        window.mainloop()
+        self.window.mainloop()
 
 
     def play_game(self,dimensions,mines):
         game = Minesweeper(dimensions,mines)
         Thread(target=game.main).start()
+        self.window.withdraw()
+
 
 
 
